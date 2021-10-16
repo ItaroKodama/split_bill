@@ -1,0 +1,35 @@
+body{
+    background-color:aquamarine;
+}
+
+h1{
+    text-align: center;
+}
+
+button{
+    background-color: peachpuff;
+}
+
+input{
+    background-color: #cfffef;
+}
+
+.contents{
+    text-align: center;
+}
+
+.content1{
+    margin-bottom: 30px;
+}
+
+#peopleCnt{
+    width: 1.5rem;
+}
+
+.name{
+    width: 10rem;
+}
+
+.money{
+    width: 5rem;
+}
