@@ -15,7 +15,7 @@ function count(){
     let str = "";
     for(let i=0; i<peopleCnt; i++){
         str += "<div>" + (i+1) + "人目：名前<input type=\"text\" id=\"name" + i + "\" class=\"name\">&emsp;"
-        + "金額<input type=\"text\" id=\"money" + i + "\" class=\"money\" required></div><br>";
+        + "金額<input type=\"text\" id=\"money" + i + "\" class=\"money\" required></div>&emsp";
         str += "<div>合計金額" + "10000円" + "</div>"
     }
     str += "<button id=\"saveMoneyTmp\" onclick=\"saveTmp()\">一時保存</button>"
