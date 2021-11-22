@@ -7,9 +7,11 @@ function count() {
 
     //人数分の入力欄を出力
     let str = "";
+
     for (let i = 1; i <= peopleCnt; i++) {
         str += "<div><img class=member src=/Users/user/training/kodama/spriting_bills/人物のアイコン素材.svg width=28px margin-right=5px top=50%><input type=\"text\" id=\"name" + i + "\" class=\"name\">&emsp;" +
             "<img class=saifu src=/Users/user/training/kodama/spriting_bills/キュートながま口財布アイコン.svg width=28px margin-right=5px><input type=\"number\" id=\"money" + i + "\" class=\"money\"></div><br>";
+
     }
     str += "<button id=\"spritingBills\" onclick=\"sprit()\">割り勘</button>";
     document.getElementById("nameAndMoney").innerHTML = str;
@@ -39,26 +41,31 @@ function sprit() {
     for (let i = 0; i < peopleCnt; i++) {}
 
     //支払先を決定
-    let str = "1人" + avg + "円<br><br>";
+    let str = "1人" + Math.floor(avg) + "円<br><br>";
     let i = 0;
     let j = 1;
     while (difference[i][1] < 0) {
         if (Math.abs(difference[i][1]) < Math.abs(difference[difference.length - j][1])) {
             const nameId1 = "name" + difference[i][0];
+
             const nameId2 = "name" + difference[difference.length - j][0];
-            str += document.getElementById(nameId1).value + "は" + document.getElementById(nameId2).value + "に" + Math.abs(difference[i][1]) + "円を支払う<br>";
+            str += document.getElementById(nameId1).value + "は" + document.getElementById(nameId2).value + "に" + Math.floor(Math.abs(difference[i][1])) + "円を支払う<br>";
             difference[difference.length - j][1] += difference[i][1];
             i++;
         } else if (Math.abs(difference[i][1]) > Math.abs(difference[difference.length - j][1])) {
             const nameId1 = "name" + difference[i][0];
+
             const nameId2 = "name" + difference[difference.length - j][0];
-            str += document.getElementById(nameId1).value + "は" + document.getElementById(nameId2).value + "に" + Math.abs(difference[difference.length - j][1]) + "円を支払う<br>";
+            str += document.getElementById(nameId1).value + "は" + document.getElementById(nameId2).value + "に" + Math.floor(Math.abs(difference[difference.length - j][1])) + "円を支払う<br>";
             difference[i][1] += difference[difference.length - j][1];
+
             j++;
         } else if (Math.abs(difference[i][1]) == Math.abs(difference[difference.length - j][1])) {
             const nameId1 = "name" + difference[i][0];
+
             const nameId2 = "name" + difference[difference.length - j][0];
-            str += document.getElementById(nameId1).value + "は" + document.getElementById(nameId2).value + "に" + Math.abs(difference[i][1]) + "円を支払う<br>";
+            str += document.getElementById(nameId1).value + "は" + document.getElementById(nameId2).value + "に" + Math.floor(Math.abs(difference[i][1])) + "円を支払う<br>";
+
             i++;
             j++;
         }
