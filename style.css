@@ -3,7 +3,7 @@
         background-color: #2a2a2afa;
         text-align: center;
         color: #fff;
-        background: url("/Users/user/training/kodama/spriting_bills/IMG_7267 2.jpg");
+        background: url("IMG_7267 2.jpg");
         background-size: cover;
     }
     h1 {
@@ -39,22 +39,37 @@
         margin-bottom: 30px;
         color: #fff;
     }
-    .saifu {
-        m
-    }
+    /* .saifu {
+        m;
+    } */
     .input {
         display: flex;
         position: fixed;
         flex-wrap: wrap;
         align-items: center;
     }
-    #peopleCnt {
+    #numberOfPeople {
         width: 1.5rem;
     }
-    .name {
+    .personName {
         width: 5rem;
     }
-    .money {
+    .payment {
         width: 3rem;
+    }
+
+    .memberImg{
+        width: 28px;
+        margin-right: 5px;
+        top: 50%;
+    }
+
+    .purseImg{
+        width: 28px;
+        margin-right: 5px;
+    }
+
+    .sumPayment{
+        border: none;
     }
 }
