@@ -1,7 +1,5 @@
 //todo
-//空のときは0円処理
-//保存時の金額をどっかに表示
-//名前は変更できないようにする
+//名前がない場合どうするかor必須入力にするか
 //データ削除時はポップアップ喚起(終了ボタン押下→終了しますか？→はい→終了するとデータが削除されますがいいですか？→はい→データ削除)
 //結果をポップアップ表示
 //用途の入力をできるようにして履歴を見れるようにする
@@ -50,10 +48,13 @@ function confirmNumberOfPeople(){
         // useFor.setAttribute('id', 'useId' + i);
         // useFor.setAttribute('class', 'useFor');
 
+        //合計金額タイトル
+        let txtSumPayment = document.createTextNode('合計金額：');
+
         //合計金額表示欄
         let sumPayment = document.createElement('input');
         sumPayment.setAttribute('id', 'sumPayment' + i);
-        sumPayment.setAttribute('class', 'sumPayment');
+        sumPayment.setAttribute('class', 'payment sumPayment');
         sumPayment.setAttribute('readonly', true);
         const tmpId = "paymentId" + i;
         sumPayment.setAttribute('value', localStorage.getItem(tmpId));
@@ -68,6 +69,7 @@ function confirmNumberOfPeople(){
         divPerson.appendChild(purseImage);
         divPerson.appendChild(paymentInput);
         // divPerson.appendChild(useFor);
+        divPerson.appendChild(txtSumPayment);
         divPerson.appendChild(sumPayment);
 
         //親要素にdivを追加
@@ -126,21 +128,28 @@ function saveTmp(){
 
 //割り勘ボタン押下時処理
 function splitBill(){
-    //全員の合計金額を算出
+    saveTmp();
+
+    //前回データの削除
+    document.getElementById('paymentResult').remove();
+    let paymentResult = document.createElement('div');
+    paymentResult.setAttribute('id', 'paymentResult');
+    resultDisplayArea.appendChild(paymentResult);
+
+    //全員の合計金額
     let sumEveryone = 0;
+    //各メンバーの支払金額
     const paymentEach = new Array(numberOfPeople);
+
+    //合計金額の算出
     for(let i = 0; i < numberOfPeople; i++){
         const tmpId = "paymentId" + i;
-        let tmpPayment = document.getElementById(tmpId).value;
-        if(tmpPayment == ""){
-            tmpPayment = 0;
-        }
-        paymentEach[i] = parseInt(localStorage.getItem(tmpId)) + parseInt(tmpPayment);
+        paymentEach[i] = parseInt(localStorage.getItem(tmpId));
         sumEveryone += paymentEach[i];
     }
 
-    //平均との差額を計算
-    const avg = sumEveryone / numberOfPeople;
+    //各メンバーの支払い金額と平均金額との差額を計算
+    const avg = Math.floor(sumEveryone / numberOfPeople);
     let difference = new Array(numberOfPeople);
     for(let i = 0; i < numberOfPeople; i++){
         difference[i] = [];
@@ -148,46 +157,53 @@ function splitBill(){
         difference[i][1] = paymentEach[i] - avg;
     }
     
-    //差額を照準にソート
+    //差額を昇順にソート
     difference.sort(comparePayment);
 
-    //支払先を決定
-    let str = "1人" + avg + "円<br><br>";
+    //平均金額の表示
+    let txtAveragePayment = document.createTextNode('1人' + avg + '円');
+    let averagePayment = document.createElement('label');
+    averagePayment.setAttribute('class', 'averagePayment');
+    averagePayment.appendChild(txtAveragePayment);
+    paymentResult.appendChild(averagePayment);
+
+    //支払先の決定
     let i = 0;
     let j = 1;
     while (difference[i][1] < 0) {
-        if (Math.abs(difference[i][1]) < Math.abs(difference[difference.length - j][1])) {
-            const nameId1 = "personId" + difference[i][0];
+        const nameId1 = "personId" + difference[i][0];
+        const nameId2 = "personId" + difference[difference.length - j][0];
 
-            const nameId2 = "personId" + difference[difference.length - j][0];
-            str += document.getElementById(nameId1).value + "は" + document.getElementById(nameId2).value + "に" + Math.floor(Math.abs(difference[i][1])) + "円を支払う<br>";
+        //支払金額を算出
+        let payment = 0;
+        if (Math.abs(difference[i][1]) < Math.abs(difference[difference.length - j][1])) {
+            payment = Math.floor(Math.abs(difference[i][1]));
             difference[difference.length - j][1] += difference[i][1];
             i++;
         } else if (Math.abs(difference[i][1]) > Math.abs(difference[difference.length - j][1])) {
-            const nameId1 = "personId" + difference[i][0];
-
-            const nameId2 = "personId" + difference[difference.length - j][0];
-            str += document.getElementById(nameId1).value + "は" + document.getElementById(nameId2).value + "に" + Math.floor(Math.abs(difference[difference.length - j][1])) + "円を支払う<br>";
+            payment = Math.floor(Math.abs(difference[difference.length - j][1]));
             difference[i][1] += difference[difference.length - j][1];
-
             j++;
         } else if (Math.abs(difference[i][1]) == Math.abs(difference[difference.length - j][1])) {
-            const nameId1 = "personId" + difference[i][0];
-
-            const nameId2 = "personId" + difference[difference.length - j][0];
-            str += document.getElementById(nameId1).value + "は" + document.getElementById(nameId2).value + "に" + Math.floor(Math.abs(difference[i][1])) + "円を支払う<br>";
-
+            payment = Math.floor(Math.abs(difference[i][1]));
             i++;
             j++;
         }
+
+        //支払内容の表示
+        let txtPaymentFor = document.createTextNode(document.getElementById(nameId1).value + 'は' + document.getElementById(nameId2).value + 'に' + payment + '円支払う');
+        let paymentFor = document.createElement('label');
+        paymentFor.setAttribute('class', 'paymentFor');
+        paymentFor.appendChild(txtPaymentFor);
+        paymentResult.appendChild(paymentFor);
     }
-    document.getElementById("result").innerHTML = str;
 }
 
 //終了ボタン押下時処理
 function finish(){
     localStorage.clear();
     //TODO入力欄も消す必要あり
+    //TODOポップアップ表示
 }
 
 function comparePayment(a, b) {

@@ -3,23 +3,24 @@
 
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>bill split</title>
+    <title>split　bill</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <script src="./index.js"></script>
 </head>
 
 <body>
-    <h1>bill split</h1>
+    <h1>split bill</h1>
     <div class="contents">
-        <div id="result">
+        <div id="resultDisplayArea">
+            <div id="paymentResult"></div>
         </div>
-        <div class="numberOfPeople">
+        <div id="numberOfPeopleInputArea">
             <p>人数を入力してください</p>
-            <div class="input">
-                <input type="number" class="numberOfPeople" id="numberOfPeople">
+            <div class="inputArea">
+                <input type="number" id="numberOfPeople">
                 <p>人</p>
+                <button id="confirmNumberOfPeople" onclick="confirmNumberOfPeople()">確定</button>
             </div>
-            <button id="confirmNumberOfPeople" onclick="confirmNumberOfPeople()">確定</button>
         </div>
         <div id="paymentInputArea">
         </div>

@@ -72,4 +72,18 @@
     .sumPayment{
         border: none;
     }
+
+    #paymentResult{
+        display: grid;
+    }
+
+    .inputArea{
+        display: flex;
+        align-items: center;
+    }
+
+    #numberOfPeopleInputArea{
+        display: flex;
+        justify-content: center;
+    }
 }
